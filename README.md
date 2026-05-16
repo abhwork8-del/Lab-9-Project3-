@@ -5,7 +5,7 @@ This project demonstrates how to build an AI-powered chatbot using the OpenAI AP
 # Objectives
 1. Set up OpenAI API environment
 2. Make first API call using GPT model
-3. Build a conversational chatbot with memory (message history)
+3. Build a conversational chatbot with memory 
 4. Implement system prompts for behavior control
 5. Create domain-specific assistants (HR + Customer Support)
 # Technologies Used
