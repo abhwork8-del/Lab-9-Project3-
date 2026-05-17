@@ -1,55 +1,29 @@
-# Lab-9-Project3
-# Lab 9 — Week 9: GenAI Domain Assistant (Part 1)
-# Overview
-This project demonstrates how to build an AI-powered chatbot using the OpenAI API. The lab focuses on creating conversational agents, handling multi-turn dialogue, and designing domain-specific assistants such as HR and customer support bots.By completing this lab, we learn how to integrate GPT models into Python applications and customize their behavior using system prompts.
-# Objectives
-1. Set up OpenAI API environment
-2. Make first API call using GPT model
-3. Build a conversational chatbot with memory 
-4. Implement system prompts for behavior control
-5. Create domain-specific assistants (HR + Customer Support)
-# Technologies Used
-Python
-Gemini 2.5 Flash
-Kaggle Notebook
-# Objectives
-1. Formulated an API connection using the up-to-date google-genai SDK.
-2. Successfully implemented a multi-turn conversation loop maintaining context history natively.
-3. Configured a generic chatbot with foundational persona boundaries via system instructions.  
-4. Built and validated a domain-specific HR Policy Assistant.  
-5. Built and validated a domain-specific TechShop Customer Support Agent.
-# Setup & Configuration Instructions
-Secure API Credentials
-To ensure credentials are not committed to source control:  
-Obtain an API Key from Google AI Studio.
-In your Kaggle Notebook interface, navigate to the top toolbar: Add-ons Secrets.
-Create a new secret entry:
-Label: GEMINI_API_KEY
-Toggle the visibility checkbox to Attach the secret securely to the notebook environment instance.
-# Lab Verification & Automated Grading Responses
-1. HR Assistant Validation   
-System Persona Boundaries: Configured with fixed parameters defining a strict 15-day vacation cap, unlimited sick leave constraints, 3-day split remote work regimes, and custom 401(k) matching tiers.  
-Pre-coded Verification Execution Questions Evaluated Natively:  
-"How many vacation days do I get?"   
-"Can I work from home?"   
-"What about health insurance?"   
-"How does 401(k) matching work?"   
-2. Customer Support Bot Validation   
-System Persona Boundaries: Configured with TechShop retail guidelines including a 30-day return enforcement matrix, dynamic shipping pricing thresholds ($50 order cutoff value), and standard hardware warranties.  
-Pre-coded Verification Execution Scenarios Evaluated Natively:  
-"I want to return a product I bought 2 weeks ago"   
-"How much is shipping?"   
-"My laptop stopped working after 6 months"
-# Execute the Notebook
-Open the .ipynb file within your Kaggle editor runtime environment.
-Run the initialization cells sequentially to mount dependencies and establish the secure API hook.
-Run the HR Assistant or Customer Support function modules.
-Input statements directly into the interactive prompt line interface layout matching test cases or input your own text, typing quit anytime to safely drop the runtime loops.
-# Outcome
-Successfully built a working AI chatbot system capable of:
-Multi-turn conversations
-Role-based behavior (HR & Support)
-Real-world use case simulation
-
+# Project3
+# Lab 9 — 10
+# Generative AI Domain Assistant & Retrieval-Augmented Generation (RAG) Pipeline
+This project showcases the complete implementation of a conversational AI system integrated with a localized document lookup mechanism. Spanning across two technical milestones, the system demonstrates how a baseline Large Language Model (LLM) can be adapted from a generic chat interface into highly restricted, domain-specific enterprise agents using the Google GenAI SDK and Gemini architecture.
+# System Objectives & Milestones
+# Lab 9: GenAI Domain Assistant
+The primary objective of this phase was to establish safe API client initialization and implement foundational conversational structures. 
+Stateful Dialogue History: Configured a multi-turn chat framework that dynamically records back-and-forth messaging history so the engine retains conversational context over time.
+Behavioral Prompt Engineering: Utilized system instructions to isolate the AI's persona, setting rules, tone constraints, and factual scopes to build two distinct operational variants:
+1. HR Policy Assistant: Tailored to respond strictly to employee inquiries regarding vacation accrual rules, parental leave, and remote workspace allowances.
+2. Customer Support Agent: Optimized with an empathetic, solution-oriented tone designed to handle warranty parameters, return windows, and multi-tier escalation criteria.
+# Lab 10: Retrieval-Augmented Generation (RAG)
+The objective of this phase was to mitigate model hallucinations and eliminate reliance on public training data by forcing the AI to verify queries against a customized internal text database.
+Data Ingestion & Text Fragmentation: Established pipeline operations to ingest unstructured text data from corporate policy files. These files were programmatically broken down into uniform character tracking windows with intentional segment overlapping to prevent context severing.
+Algorithmic Document Retrieval: Coded a modular frequency-matching search engine to parse data fragments, automatically scoring and ranking the most contextually relevant entries relative to incoming user queries.
+Context-Grounded Inference Pipeline: Tied the search engine's outputs directly into the generation layer. When a user asks a question, the top matching documentation blocks are woven directly into a specialized context template alongside the question.
+Rigid Error Fallback Rules: Engineered strict boundaries ensuring that if a query references parameters outside the provided data assets (such as missing corporate health insurance criteria), the system rejects standard creative guessing and cleanly surfaces a standardized missing-context warning.
+# System File Architecture
+The underlying structure of the deployment environment handles raw enterprise data storage alongside processing runtimes as outlined below:
+1. company_docs: The localized corporate data layer repository.
+2. hr_policy.txt: Contains official parameters for full-time employee vacations, remote working, and parental care leaves.
+3. it_policy.txt: Defines parameters for company-issued hardware security protocols, VPN prerequisites, and workplace dress codes.
+labs_9_and_10_gemini.ipynb: The complete combined execution notebook containing environment setups, credential management, multi-turn chat loops, and the completed grounding pipeline.
+# Evaluation Summary: Standard Inference vs. RAG Execution
+The final stage of development validated the system by executing identical queries through an ungrounded model versus the completed RAG pipeline to contrast behaviors:
+1. Standard Inference (Without RAG): When asked specific corporate policy questions, the standard model relies on its generalized public training data. This leads to broad industry estimates, generic averages, or outright guesswork regarding company rules.
+2. Grounded Inference (With RAG): When the same query passes through the RAG pipeline, the model is restricted to a zero-ingestion parameters profile. It completely ignores public web assumptions and extracts the precise, mathematically definitive parameters written directly in your documentation files.
 # Author
-Aliha Batool — AI Lab 9 (Week 9)
+Aliha Batool — AI Lab 9 (Week: 9/10)
