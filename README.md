@@ -25,5 +25,99 @@ labs_9_and_10_gemini.ipynb: The complete combined execution notebook containing 
 The final stage of development validated the system by executing identical queries through an ungrounded model versus the completed RAG pipeline to contrast behaviors:
 1. Standard Inference (Without RAG): When asked specific corporate policy questions, the standard model relies on its generalized public training data. This leads to broad industry estimates, generic averages, or outright guesswork regarding company rules.
 2. Grounded Inference (With RAG): When the same query passes through the RAG pipeline, the model is restricted to a zero-ingestion parameters profile. It completely ignores public web assumptions and extracts the precise, mathematically definitive parameters written directly in your documentation files.
-# Author
-Aliha Batool — AI Lab 9 (Week: 9/10)
+
+# Lab 11 – Vector Databases & Semantic Search (Gemini API)
+# Overview
+This project implements **Lab 11: Vector Databases & Semantic Search**.
+The objective of this lab is to upgrade traditional keyword search into **semantic search** using **embeddings** and a **vector database (ChromaDB)**.
+Unlike exact keyword matching, semantic retrieval understands the meaning of text and returns relevant information even when different words are used.
+This implementation uses **Google Gemini API** instead of OpenAI for embedding generation and response generation.
+# Objectives
+By completing this lab, the following concepts were implemented:
+1. Generate embeddings using Gemini API
+2. Calculate cosine similarity between vectors
+3. Store embeddings inside ChromaDB
+4. Build semantic document retrieval
+5. Implement Retrieval-Augmented Generation (RAG)
+6. Compare semantic search with traditional keyword search
+# Technologies Used
+1. Python
+2. Google Gemini API
+3. ChromaDB
+4. LangChain
+5. NumPy
+6. Kaggle Notebook
+# Project Structure
+plaintext
+Lab11_Vector_DB/
+company_docs:
+1. vacation_policy.txt
+2. remote_work.txt
+3. maternity_leave.txt
+chroma_db: 
+1. week11_semantic_search.ipynb
+2. README.md
+3. requirements.txt
+# Installation
+Install dependencies:
+pip install google-generativeai
+pip install chromadb
+pip install langchain
+pip install langchain-community
+pip install langchain-text-splitters
+pip install sentence-transformers
+pip install numpy
+# API Configuration
+Create a Gemini API key.
+# Workflow
+# 1. Generate Embeddings
+Text is converted into numerical vectors using Gemini embedding models.
+# 2. Similarity Calculation
+Cosine similarity measures semantic closeness.
+# 3. Create Chroma Vector Database
+Documents are stored together with embeddings.
+# 4. Perform Semantic Search
+Semantic search retrieves meaning rather than exact words.
+# 5. Build Semantic RAG
+Pipeline:
+User Question
+↓
+Generate Embedding
+↓
+Vector Search
+↓
+Retrieve Context
+↓
+Gemini Generates Answer
+# Example Questions
+Example inputs:
+How much vacation leave?
+Can employees work remotely?
+What is maternity leave policy?
+outputs:
+20 vacation days
+3 work-from-home days
+90 maternity leave days
+# Results
+Successfully implemented:
+1. Embedding generation
+2. Similarity computation
+3. ChromaDB indexing
+4. Vector retrieval
+5. Semantic RAG pipeline
+6. Question answering using retrieved context
+# Learning Outcomes
+This lab demonstrates:
+1. Understanding embeddings
+2. Semantic understanding of text
+3. Vector databases
+4. Retrieval-Augmented Generation
+5. Production-style search pipelines
+
+## Author
+Aliha Batool
+BS Artificial Intelligence
+Lab 11 – Week 11
+
+# About 
+Aliha Batool — Project 3
