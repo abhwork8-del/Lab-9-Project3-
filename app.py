@@ -4,46 +4,46 @@ import chromadb
 import requests
 from dotenv import load_dotenv
 from chromadb.api.types import EmbeddingFunction
-from langchain_openai import ChatOpenAI
 
-os.environ["PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION"] = "python"
 load_dotenv()
 
 # =========================================================
-# EMBEDDINGS (OpenRouter)
+# GEMINI EMBEDDINGS (via API call)
 # =========================================================
-class OpenRouterEmbeddingFunction(EmbeddingFunction):
-    def __init__(self, api_key, model="openai/text-embedding-3-small"):
+class GeminiEmbeddingFunction(EmbeddingFunction):
+    def __init__(self, api_key, model="models/text-embedding-004"):
         self.api_key = api_key
         self.model = model
 
     def __call__(self, input):
-        response = requests.post(
-            "https://openrouter.ai/api/v1/embeddings",
-            headers={
-                "Authorization": f"Bearer {self.api_key}",
-                "Content-Type": "application/json",
-            },
-            json={"model": self.model, "input": input},
-        )
+        url = f"https://generativelanguage.googleapis.com/v1beta/models/{self.model}:embedContent?key={self.api_key}"
 
-        if response.status_code != 200:
-            raise ValueError(response.text)
+        embeddings = []
 
-        data = response.json()["data"]
+        for text in input:
+            response = requests.post(
+                url,
+                json={"content": {"parts": [{"text": text}]}},
+            )
 
-        return [[float(x) for x in item["embedding"]] for item in data]
+            if response.status_code != 200:
+                raise ValueError(response.text)
+
+            data = response.json()
+            embeddings.append(data["embedding"]["values"])
+
+        return embeddings
 
 
 # =========================================================
-# CHROMADB
+# CHROMADB INIT
 # =========================================================
 @st.cache_resource
 def init_chromadb():
-    client = chromadb.PersistentClient(path="./chroma_db")
+    client = chromadb.Client()  # safe for Streamlit Cloud
 
-    embedding_fn = OpenRouterEmbeddingFunction(
-        api_key=os.getenv("OPENROUTER_API_KEY")
+    embedding_fn = GeminiEmbeddingFunction(
+        api_key=os.getenv("GEMINI_API_KEY")
     )
 
     return client.get_or_create_collection(
@@ -52,24 +52,50 @@ def init_chromadb():
     )
 
 
-# =========================================================
-# LLM (FIXED)
-# =========================================================
-@st.cache_resource
-def init_llm():
-    return ChatOpenAI(
-        model="gpt-3.5-turbo",
-        api_key=os.getenv("OPENROUTER_API_KEY"),
-        base_url="https://openrouter.ai/api/v1/v1"  # ✅ FIXED PATH
-    )
-
-
 collection = init_chromadb()
-llm = init_llm()
 
 
 # =========================================================
-# RAG
+# GEMINI CHAT RESPONSE
+# =========================================================
+def gemini_generate(prompt, context):
+    api_key = os.getenv("GEMINI_API_KEY")
+
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={api_key}"
+
+    payload = {
+        "contents": [
+            {
+                "parts": [
+                    {
+                        "text": f"""
+You are an HR assistant.
+Use ONLY the context below.
+
+Context:
+{context}
+
+Question:
+{prompt}
+"""
+                    }
+                ]
+            }
+        ]
+    }
+
+    response = requests.post(url, json=payload)
+
+    if response.status_code != 200:
+        return f"Error: {response.text}"
+
+    data = response.json()
+
+    return data["candidates"][0]["content"]["parts"][0]["text"]
+
+
+# =========================================================
+# RAG FUNCTION
 # =========================================================
 def get_rag_response(query, n_results=3):
     results = collection.query(query_texts=[query], n_results=n_results)
@@ -81,24 +107,15 @@ def get_rag_response(query, n_results=3):
 
     context = "\n\n---\n\n".join(docs)
 
-    messages = [
-        {
-            "role": "system",
-            "content": "You are a professional HR assistant. Use ONLY context."
-        },
-        {
-            "role": "user",
-            "content": f"Context:\n{context}\n\nQuestion:\n{query}"
-        }
-    ]
-
-    return llm.invoke(messages).content
+    return gemini_generate(query, context)
 
 
 # =========================================================
-# STREAMLIT UI (MINIMAL FIXED CORE)
+# STREAMLIT UI
 # =========================================================
-st.title("Company Knowledge Assistant")
+st.set_page_config(page_title="Company Knowledge Assistant")
+
+st.title("📘 Company Knowledge Assistant (Gemini + RAG)")
 
 if "messages" not in st.session_state:
     st.session_state.messages = []
@@ -107,8 +124,9 @@ for msg in st.session_state.messages:
     with st.chat_message(msg["role"]):
         st.write(msg["content"])
 
-if prompt := st.chat_input("Ask something..."):
+prompt = st.chat_input("Ask something...")
 
+if prompt:
     st.session_state.messages.append({"role": "user", "content": prompt})
 
     with st.chat_message("assistant"):
