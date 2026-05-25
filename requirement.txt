@@ -1,2 +1,5 @@
 streamlit
 chromadb==0.4.24
+requests
+python-dotenv
+langchain-openai
