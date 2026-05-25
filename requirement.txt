@@ -1,11 +1,2 @@
-openai
-python-dotenv
-langchain
-langchain-community
-langchain-openai
 streamlit
-requests
-numpy
-pandas
-tiktoken
-google-generativeai
+chromadb==0.4.24
