@@ -9,4 +9,9 @@ requests
 numpy
 pandas
 tiktoken
-pypdf
+streamlit
+chromadb
+openai
+google-generativeai
+pandas
+numpy
