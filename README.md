@@ -116,8 +116,117 @@ This lab demonstrates:
 
 ## Author
 Aliha Batool
-BS Artificial Intelligence
 Lab 11 – Week 11
+
+# Week 12: Streamlit Deployment + Interactive AI Assistant
+# Streamlit Web Application
+Developed a full interactive web app using Streamlit.
+Features:
+1. Chat interface
+2. Real-time AI responses
+3. Sidebar controls
+4. Conversation history
+5. Interactive UI components
+# Session State Management
+Implemented:
+1. Persistent conversation memory
+2. Chat history tracking
+3. Dynamic UI updates
+4. Stateful interactions
+
+# Interactive RAG Assistant
+Users can:
+1. Ask document-related questions
+2. Retrieve grounded answers
+3. Interact with AI in real time
+4. Query indexed company knowledge
+
+# Cached Resource Optimization
+Optimized performance using:
+1. @st.cache_resource
+2. Cached model loading
+3. Cached ChromaDB initialization
+4. Reduced API overhead
+
+# Error Handling & Stability
+Improved robustness with:
+1. Global exception handling
+2. User-friendly error messages
+3. Missing database detection
+4. API failure recovery
+
+# Technology
+1. Python 3.x
+2. Google Gemini API
+3. Streamlit
+4. ChromaDB
+5. LangChain
+6. LangChain Google GenAI
+7. SentenceTransformers
+8. python-dotenv
+9. Jupyter Notebook
+10. Kaggle
+11. VS Code
+
+# Models Used
+# LLMs
+gemini-pro
+gemini-1.5-pro
+gemini-1.5-flash
+# Embedding Models
+all-MiniLM-L6-v2
+# Key Concepts Covered
+1. Prompt Engineering
+2. Multi-turn Conversations
+3. Domain-Specific AI Assistants
+4. Retrieval-Augmented Generation (RAG)
+5. Semantic Search
+6. Vector Databases
+7. ChromaDB
+8. Embeddings
+9. LangChain Pipelines
+10. Streamlit Deployment
+11. Context Injection
+12. Document Chunking
+13. Persistent Memory
+14. API Integration
+15. Error Handling
+16. Hallucination Reduction
+17. Semantic Retrieval
+18. Conversational AI Systems
+# Example Capabilities
+# HR Assistant
+"How many vacation days do employees get?"
+# Customer Support Assistant
+"Can I return a laptop after 15 days?"
+# RAG-Based QA
+Answers questions strictly from uploaded documents.
+If information is unavailable:
+"Not found in documents"
+# Deliverables Completed
+ 1. Documents loaded from directory
+ 2. Text preprocessing pipeline implemented
+ 3. Recursive text chunking completed
+ 4. Chunk preview generation
+ 5. Semantic embedding pipeline created
+ 6. ChromaDB vector database integrated
+ 7. Persistent vector storage implemented
+ 8. Retrieval system implemented
+ 9. Semantic similarity search added
+ 10. Tested retrieval queries
+ 11. RAG query pipeline implemented
+ 12. Gemini-powered grounded responses generated
+ 13. Hallucination prevention implemented
+ 14. RAG vs non-RAG comparison completed
+ 15. Streamlit web application developed
+ 16. Interactive chatbot interface created
+ 17. Session-state conversation memory implemented
+ 18. Sidebar analytics added
+ 19. Cached resource optimization completed
+ 20. Gemini API integration completed
+ 21. LangChain integration completed
+ 22. Error handling implemented
+ 23. End-to-end conversational RAG assistant deployed
 
 # About 
 Aliha Batool — Project 3
