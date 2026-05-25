@@ -1,8 +1,12 @@
 streamlit
-chromadb==1.0.13
-google-generativeai
+openai
+python-dotenv
 langchain
 langchain-community
-sentence-transformers
-python-dotenv
+langchain-openai
+chromadb
+requests
+numpy
+pandas
+tiktoken
 pypdf
