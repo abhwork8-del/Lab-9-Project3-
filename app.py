@@ -5,7 +5,7 @@ from google import genai
 from dotenv import load_dotenv
 
 # ==========================================
-# TASK 3.3: TOP-LEVEL ERROR HANDLING
+# TOP-LEVEL ERROR HANDLING
 # ==========================================
 try:
     # Load environment variables
@@ -19,12 +19,12 @@ try:
     )
 
     # ==========================================
-    # TASK 2.2: INITIALIZE RESOURCE CACHING
+    # INITIALIZE RESOURCE CACHING
     # ==========================================
     @st.cache_resource
     def init_chromadb():
         """Initializes and caches the persistent ChromaDB client."""
-        # Change this path to check the current directory level
+        # LOOK DIRECTLY IN THE ROOT LEVEL FOR THE CHROMA_DB FOLDER
         if not os.path.exists("chroma_db"):
             raise FileNotFoundError("ChromaDB directory not found.")
         
@@ -48,7 +48,7 @@ try:
     client = init_gemini()
 
     # ==========================================
-    # TASK 2.3: REFINED GEMINI RAG FUNCTION
+    # REFINED GEMINI RAG FUNCTION
     # ==========================================
     def get_rag_response(query, n_results=3):
         """Queries ChromaDB and generates context-aware answers via Gemini API."""
@@ -88,7 +88,7 @@ Answer:"""
             return f"Error executing model pipeline: {str(e)}"
 
     # ==========================================
-    # TASK 3.1: SIDEBAR INTERFACE & STATS
+    # SIDEBAR INTERFACE & STATS
     # ==========================================
     with st.sidebar:
         st.header("About")
@@ -107,12 +107,10 @@ Answer:"""
         
         st.divider()
         st.subheader("System Metrics")
-        # Display dynamic metrics using database counts and conversation length
         st.metric("Indexed Documents", collection.count())
         st.metric("Active Session Messages", len(st.session_state.get('messages', [])))
         
         st.divider()
-        # Clear Chat History UI Routine
         if st.button("Clear Chat History", use_container_width=True):
             st.session_state.messages = []
             st.rerun()
@@ -127,7 +125,7 @@ Answer:"""
     if "messages" not in st.session_state:
         st.session_state.messages = []
 
-    # TASK 3.2: ASSISTANT WELCOME MESSAGE
+    # ASSISTANT WELCOME MESSAGE
     if len(st.session_state.messages) == 0:
         welcome_msg = """Hi! I'm your company knowledge assistant. I can help you find information about:
 * Remote work guidelines
@@ -146,23 +144,20 @@ Just ask a question below to get started."""
 
     # Handle Active Live User Input Pipelines
     if prompt := st.chat_input("Ask a question regarding company workflows..."):
-        # Log User Entry
         st.session_state.messages.append({"role": "user", "content": prompt})
         with st.chat_message("user"):
             st.write(prompt)
             
-        # Call RAG Pipeline with Loading Spinner State UI
         with st.chat_message("assistant"):
             with st.spinner("Searching matching knowledge documents..."):
                 response = get_rag_response(prompt)
                 st.write(response)
                 
-        # Append response to memory log tracking array
         st.session_state.messages.append({"role": "assistant", "content": response})
 
 except FileNotFoundError as e:
     st.error(f"❌ Initialization Error: {str(e)}")
-    st.info("Please verify your 'chroma_db' data folder is copied inside the 'project_3_app' directory.")
+    st.info("Please verify your 'chroma_db' folder is uploaded directly in the root of your GitHub repository.")
     st.stop()
 except Exception as e:
     st.error(f"❌ Fatal Application Exception: {str(e)}")
