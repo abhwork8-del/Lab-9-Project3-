@@ -24,11 +24,12 @@ try:
     @st.cache_resource
     def init_chromadb():
         """Initializes and caches the persistent ChromaDB client."""
-        if not os.path.exists("./chroma_db"):
+        # Change this path to check the current directory level
+        if not os.path.exists("chroma_db"):
             raise FileNotFoundError("ChromaDB directory not found.")
         
         # Initialize client referencing local persistent storage
-        client = chromadb.PersistentClient(path="./chroma_db")
+        client = chromadb.PersistentClient(path="chroma_db")
         
         # Retrieve the existing collection built during Week 11
         collection = client.get_collection(name="company_docs")
