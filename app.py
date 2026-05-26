@@ -24,12 +24,12 @@ try:
     @st.cache_resource
     def init_chromadb():
         """Initializes and caches the persistent ChromaDB client."""
-        # LOOK DIRECTLY IN THE ROOT LEVEL FOR THE CHROMA_DB FOLDER
-        if not os.path.exists("chroma_db"):
-            raise FileNotFoundError("ChromaDB directory not found.")
+        # Check for your exact loose file name in your repository
+        if not os.path.exists("chroma.sqlite3"):
+            raise FileNotFoundError("ChromaDB database file (chroma.sqlite3) not found in root.")
         
-        # Initialize client referencing local persistent storage
-        client = chromadb.PersistentClient(path="chroma_db")
+        # Initialize client referencing the current main directory level
+        client = chromadb.PersistentClient(path=".")
         
         # Retrieve the existing collection built during Week 11
         collection = client.get_collection(name="company_docs")
